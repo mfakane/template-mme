@@ -1,0 +1,84 @@
+{
+	// Place your mme-effects workspace snippets here. Each snippet is defined under a snippet name and has a scope, prefix, body and 
+	// description. Add comma separated ids of the languages where the snippet is applicable in the scope field. If scope 
+	// is left empty or omitted, the snippet gets applied to all languages. The prefix is what is 
+	// used to trigger the snippet and the body will be expanded and inserted. Possible variables are: 
+	// $1, $2 for tab stops, $0 for the final cursor position, and ${1:label}, ${2:another} for placeholders. 
+	// Placeholders with the same ids are connected.
+	// Example:
+	// "Print to console": {
+	// 	"scope": "javascript,typescript",
+	// 	"prefix": "log",
+	// 	"body": [
+	// 		"console.log('$1');",
+	// 		"$2"
+	// 	],
+	// 	"description": "Log output to console"
+	// }
+	"Declare as post-processed effect": {
+		"scope": "hlsl",
+		"prefix": "postprocess",
+		"body": [
+			"// ポストエフェクト宣言",
+			"float Script : STANDARDSGLOBAL",
+			"<",
+			"\tstring ScriptOutput = \"color\";",
+			"\tstring ScriptClass = \"scene\";",
+			"\tstring ScriptOrder = \"postprocess\";",
+			"> = 0.8;"
+		]
+	},
+	"Declare object-controlled float variable": {
+		"scope": "hlsl",
+		"prefix": "controlf",
+		"body": [
+			"${4:float} ${1:ControlTr} : CONTROLOBJECT < string name = \"${2:(self)}\"; string item = \"${3:Tr}\"; >;"
+		]
+	},
+	"Declare object-controlled float3 variable": {
+		"scope": "hlsl",
+		"prefix": "control3",
+		"body": [
+			"${4:float3} ${1:ControlPos} : CONTROLOBJECT < string name = \"${2:(self)}\"; string item = \"${3:XYZ}\"; >;"
+		]
+	},
+	"Declare object-controlled float4 variable": {
+		"scope": "hlsl",
+		"prefix": "controlbone",
+		"body": [
+			"${4:float4} ${1:ControlPos} : CONTROLOBJECT < string name = \"${2:(self)}\"; string item = \"${3:ボーン名}\"; >;"
+		]
+	},
+	"Declare variable to acquire viewport size": {
+		"scope": "hlsl",
+		"prefix": "viewportsize",
+		"body": [
+			"// スクリーンサイズ",
+			"float2 ViewportSize : VIEWPORTPIXELSIZE;",
+			"static const float2 ViewportOffset = float2(0.5, 0.5) / ViewportSize;"
+		]
+	},
+	"Declare off-screen render target": {
+		"scope": "hlsl",
+		"prefix": "rto",
+		"body": [
+			"texture ${1:Layer}RT : OFFSCREENRENDERTARGET",
+			"<",
+			"\tstring Description   = \"Render Target for ${2:Effect}.fx\";",
+			"\tfloat4 ClearColor    = { 0, 0, 0, 0 };",
+			"\tfloat  ClearDepth    = 1.0;",
+			"\tbool   AntiAlias     = true;",
+			"\tint    MipLevels     = 1;",
+			"\tstring DefaultEffect = \"${3:self = hide; * = none;}\";",
+			">;",
+			"sampler ${1}Sampler = sampler_state",
+			"{",
+			"\ttexture   = <${1}RT>;",
+			"\tMinFilter = POINT;",
+			"\tMagFilter = POINT;",
+			"\tAddressU  = CLAMP;",
+			"\tAddressV  = CLAMP;",
+			"};"
+		]
+	}
+}
